@@ -1,11 +1,15 @@
-package model;
+package com.ByteTech.GreenPlate.model;
 
 import jakarta.persistence.*;
-
+import lombok.*;
 @Entity
+@Getter
+@Setter
 public class DietaryPreference {
 
     @Id
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
@@ -24,8 +28,6 @@ public class DietaryPreference {
     private String other;
 
     @OneToOne
-    @JoinColumn(name = "consumer_id", referencedColumnName = "userId")
+    @JoinColumn(name = "consumer_id", referencedColumnName = "user_id")
     private Consumer consumer;
-
-    // Getters and setters...
 }
