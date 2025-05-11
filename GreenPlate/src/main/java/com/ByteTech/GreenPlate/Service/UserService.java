@@ -29,6 +29,9 @@ public class UserService {
     public Optional<User> getUserId(String id) {
         return userRepository.findById(id);
     }
+    public Optional<User> getUserEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
     public void deleteUser(String id) {
         userRepository.deleteById(id);

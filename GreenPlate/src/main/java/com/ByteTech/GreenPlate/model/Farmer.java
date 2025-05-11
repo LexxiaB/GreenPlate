@@ -10,9 +10,6 @@ import lombok.*;
 
 public class Farmer extends User {
 
-    @ManyToOne
-    @JoinColumn(name = "farmer_id", referencedColumnName = "user_id")
-    private Farmer farmer;
 
     public String farmName;
     public boolean acceptsCompost;

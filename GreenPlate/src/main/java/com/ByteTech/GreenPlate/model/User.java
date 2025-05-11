@@ -20,7 +20,8 @@ public abstract class User {
     @Column(name = "user_id", updatable = false, nullable = false)
 
     private UUID userId;
-
+    private String userType;
+    private String password;
     private String name;
     private String email;
     private String contactNumber;

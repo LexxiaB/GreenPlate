@@ -12,9 +12,6 @@ import lombok.Setter;
 
 public class Consumer extends User {
 
-    @ManyToOne
-    @JoinColumn(name = "consumer_id", referencedColumnName = "user_id")
-    private Consumer consumer;
     @OneToOne(mappedBy = "consumer", cascade = CascadeType.ALL)
     private DietaryPreference dietaryPreference;
 
