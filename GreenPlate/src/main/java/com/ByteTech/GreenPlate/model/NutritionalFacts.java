@@ -12,18 +12,19 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class NutritionalFacts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "nutrition_id",nullable = false, updatable = false)
-    private String nutritionId;
+    private UUID nutritionId;
 
-    private double calories;
-    private double carbs;
-    private double protein;
-    private double fat;
-    private double fiber;
+    private int calories;
+    private int carbs;
+    private int protein;
+    private int fat;
+    private int fiber;
 
     private boolean lactoseFree;
     private boolean glutenFree;

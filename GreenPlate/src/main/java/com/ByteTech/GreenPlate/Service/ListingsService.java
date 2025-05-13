@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ListingsService {
@@ -26,15 +27,15 @@ public class ListingsService {
         return repository.findAll();
     }
 
-    public Optional<Listings> getById(String id) {
+    public Optional<Listings> getById(UUID id) {
         return repository.findById(id);
     }
 
-    public void delete(String id) {
+    public void delete(UUID id) {
         repository.deleteById(id);
     }
 
-    public Listings updateListing(String id, Listings updated) {
+    public Listings updateListing(UUID id, Listings updated) {
         return repository.findById(id).map(existing -> {
             existing.setSeller(updated.getSeller());
             existing.setName(updated.getName());

@@ -17,18 +17,18 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @PostMapping("/{consumerId}/add")
-    public Cart addToCart(@PathVariable UUID consumerId, @RequestBody CartItemDTO dto) {
-        return cartService.addToCart(consumerId, dto);
+    @PostMapping("/{userId}/add")
+    public Cart addToCart(@PathVariable UUID userId, @RequestBody CartItemDTO dto) {
+        return cartService.addToCart(userId, dto);
     }
 
-    @GetMapping("/{consumerId}")
-    public Cart getCart(@PathVariable UUID consumerId) {
-        return cartService.getCart(consumerId);
+    @GetMapping("/{userId}")
+    public Cart getCart(@PathVariable UUID userId) {
+        return cartService.getCart(userId);
     }
 
-    @DeleteMapping("/{consumerId}/clear")
-    public void clearCart(@PathVariable UUID consumerId) {
-        cartService.clearCart(consumerId);
+    @DeleteMapping("/{userId}/clear")
+    public void clearCart(@PathVariable UUID userId) {
+        cartService.clearCart(userId);
     }
 }

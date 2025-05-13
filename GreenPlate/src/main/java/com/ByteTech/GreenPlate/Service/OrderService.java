@@ -63,9 +63,9 @@ public class OrderService {
         // Simple placeholder
         return items.stream().mapToDouble(i -> {
             if (i.getMeal() != null)
-                return i.getMeal().getBasePrice().doubleValue() * i.getQuantity();
+                return i.getMeal().getBasePrice()* i.getQuantity();
             if (i.getProduce() != null)
-                return i.getProduce().getBasePrice().doubleValue() * i.getQuantity();
+                return i.getProduce().getBasePrice()* i.getQuantity();
             return 0;
         }).sum();
     }

@@ -23,7 +23,8 @@ public abstract class Listings {
     private User seller;  // Can be a Restaurant or Farmer
 
     private String name;
-    private BigDecimal basePrice;
+    private float basePrice;
+    private float currentPrice;
     private int quantity;
     private String description;
     private Date expiryDate;

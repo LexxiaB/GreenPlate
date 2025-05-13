@@ -11,7 +11,7 @@ public class FarmerBid {
     @Id @GeneratedValue
     private Long id;
 
-    private String discountDescription;
+    private String productDescription;
     private Double bidAmount;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

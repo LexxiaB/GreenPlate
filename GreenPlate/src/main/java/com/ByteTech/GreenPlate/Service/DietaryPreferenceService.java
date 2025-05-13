@@ -1,57 +1,66 @@
 package com.ByteTech.GreenPlate.Service;
 
+import com.ByteTech.GreenPlate.dto.DietaryPreferenceDto;
+import com.ByteTech.GreenPlate.model.Consumer;
 import com.ByteTech.GreenPlate.model.DietaryPreference;
+import com.ByteTech.GreenPlate.Repository.ConsumerRepository;
 import com.ByteTech.GreenPlate.Repository.DietaryPreferenceRepository;
-import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-
+import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class DietaryPreferenceService {
 
     private final DietaryPreferenceRepository dietaryPreferenceRepository;
+    private final ConsumerRepository consumerRepository;
 
-    @Autowired
-    public DietaryPreferenceService(DietaryPreferenceRepository dietaryPreferenceRepository) {
-        this.dietaryPreferenceRepository = dietaryPreferenceRepository;
-    }
-    public DietaryPreference saveDietaryPreference (DietaryPreference dietaryPreference){
-        return dietaryPreferenceRepository.save(dietaryPreference);
-    }
+    /**
+     * Create or update the dietary preference for a given consumer.
+     */
+    public DietaryPreference createOrUpdateForConsumer(UUID consumerId, DietaryPreferenceDto dto) {
+        Consumer consumer = consumerRepository.findById(consumerId)
+                .orElseThrow(() -> new RuntimeException("Consumer not found with id: " + consumerId));
 
-    public List<DietaryPreference> getAllDietaryPreferences() {
-        return dietaryPreferenceRepository.findAll();
-    }
+        // Try to load existing preference, or make a new one
+        Optional<DietaryPreference> existing =
+                dietaryPreferenceRepository.findByConsumerUserId(consumerId);
+        DietaryPreference pref = existing.orElseGet(DietaryPreference::new);
 
-    public Optional<DietaryPreference> getDietaryPreferenceId(String id) {
-        return dietaryPreferenceRepository.findById(id);
-    }
+        // Copy all flags from DTO
+        pref.setLactoseFree(dto.isLactoseFree());
+        pref.setGlutenFree(dto.isGlutenFree());
+        pref.setVegetarian(dto.isVegetarian());
+        pref.setVegan(dto.isVegan());
+        pref.setNutAllergy(dto.isNutAllergy());
+        pref.setShellfishAllergy(dto.isShellfishAllergy());
+        pref.setHalal(dto.isHalal());
+        pref.setKosher(dto.isKosher());
+        pref.setLowCholesterol(dto.isLowCholesterol());
+        pref.setLowSugar(dto.isLowSugar());
+        pref.setOther(dto.getOther());
 
-    public void deleteDietaryPreference(String id) {
-        dietaryPreferenceRepository.deleteById(id);
-    }
-    public DietaryPreference updateDietaryPreference(String id, DietaryPreference updatedPreference) {
-        return dietaryPreferenceRepository.findById(id).map(pref -> {
-            pref.setLactoseFree(updatedPreference.isLactoseFree());
-            pref.setGlutenFree(updatedPreference.isGlutenFree());
-            pref.setVegetarian(updatedPreference.isVegetarian());
-            pref.setVegan(updatedPreference.isVegan());
-            pref.setNutAllergy(updatedPreference.isNutAllergy());
-            pref.setShellfishAllergy(updatedPreference.isShellfishAllergy());
-            pref.setHalal(updatedPreference.isHalal());
-            pref.setKosher(updatedPreference.isKosher());
-            pref.setLowCholesterol(updatedPreference.isLowCholesterol());
-            pref.setLowSugar(updatedPreference.isLowSugar());
-            pref.setOther(updatedPreference.getOther());
-            pref.setConsumer(updatedPreference.getConsumer());
+        // Ensure the link to the consumer
+        pref.setConsumer(consumer);
 
-            return dietaryPreferenceRepository.save(pref);
-        }).orElseThrow(() -> new RuntimeException("DietaryPreference not found with id: " + id));
+        return dietaryPreferenceRepository.save(pref);
     }
 
+    /**
+     * Load the dietary preference for a consumer (by their ID).
+     */
+    public Optional<DietaryPreference> getByConsumerId(UUID consumerId) {
+        return dietaryPreferenceRepository.findByConsumerUserId(consumerId);
+    }
+
+    /**
+     * Delete the dietary preference for a consumer.
+     */
+    public void deleteByConsumerId(UUID consumerId) {
+        dietaryPreferenceRepository.findByConsumerUserId(consumerId)
+                .ifPresent(dietaryPreferenceRepository::delete);
+    }
 }
-

@@ -15,7 +15,8 @@ public class RestaurantListing extends Listings {
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
-    @ManyToOne
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nutritional_facts_id")
     private NutritionalFacts nutritionalFacts;
 

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/listings")
@@ -30,17 +31,17 @@ public class ListingsController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Listings> getListingById(@PathVariable String id) {
+    public Optional<Listings> getListingById(@PathVariable UUID id) {
         return service.getById(id);
     }
 
     @PutMapping("/{id}")
-    public Listings updateListing(@PathVariable String id, @RequestBody Listings updated) {
+    public Listings updateListing(@PathVariable UUID id, @RequestBody Listings updated) {
         return service.updateListing(id, updated);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteListing(@PathVariable String id) {
+    public void deleteListing(@PathVariable UUID id) {
         service.delete(id);
     }
 }

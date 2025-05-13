@@ -4,10 +4,12 @@ import com.ByteTech.GreenPlate.model.OrderItem.ItemType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 public class CartItemDTO {
-    private String listingId;
+    private UUID listingId;
     private int quantity;
     private ItemType itemType;
 }
