@@ -14,7 +14,5 @@ public class ConsumerRegistrationRequest {
     private String email;
     private String password;
     private String contactNumber;
-    private String farmName;
-    private boolean acceptsCompost;
 }
 
