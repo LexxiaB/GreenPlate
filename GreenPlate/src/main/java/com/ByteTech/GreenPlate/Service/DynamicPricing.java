@@ -1,4 +1,3 @@
-/*
 package com.ByteTech.GreenPlate.Service;
 
 import java.time.Duration;
@@ -36,7 +35,7 @@ public class DynamicPricing {
                 : 1.0 - Math.max(0, Math.min(tExpires / tShelfLife, 1.0));
 
         // Demand score from metrics
-        double demandScore = DemandScorer.computeDemandScore(views, carts, orders, likes);
+        double demandScore = DemandScorer.computeDemandScore(views, carts, orders);
 
         // Dynamic discount calculation
         double discount = alpha * tListed
@@ -50,4 +49,3 @@ public class DynamicPricing {
         return Math.round(finalPrice * 100.0) / 100.0;
     }
 }
-*/

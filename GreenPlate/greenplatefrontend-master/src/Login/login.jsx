@@ -38,9 +38,9 @@ function Login() {
 
       // Navigate based on user role
       if (userRole === "ROLE_RESTAURANT") {
-        navigate("/restaurants");
+        navigate("/restaurants/restaurant_dashboard");
       } else if (userRole === "ROLE_FARMER") {
-        navigate("/farmers");
+        navigate("/farmers/FarmerDashboard");
       } else {
         // Default to customer dashboard
         navigate("/customer");

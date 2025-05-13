@@ -10,8 +10,8 @@ import ConsumerRegistration from "./Registration/Consumer";
 import RestaurantRegistration from "./Registration/Restaurant";
 import FarmerRegistration from "./Registration/Farmers";
 import CartPage from "./Cart/cartPage";
-import RestaurantDashboard from "./Restaurants/Restaurant";
-import FarmerDashboard from "./Farmers/Farmers";
+import RestaurantDashboard from "./Restaurants/Restaurant_dashboard";
+import FarmerDashboard from "./Farmers/FarmerDashboard";
 
 
 export default function App() {
@@ -34,8 +34,8 @@ export default function App() {
         <Route path="/customer" element={<Customer />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/restaurants" element={<RestaurantDashboard />} />
-        <Route path="/farmers" element={<FarmerDashboard />} />
+        <Route path="/restaurants/restaurant_dashboard" element={<RestaurantDashboard />} />
+        <Route path="/farmers/FarmerDashboard" element={<FarmerDashboard />} />
         
         {/* Other user type dashboards would go here */}
       </Routes>

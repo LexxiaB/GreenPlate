@@ -2,12 +2,13 @@ package com.ByteTech.GreenPlate.controller;
 
 import com.ByteTech.GreenPlate.dto.FarmerListingDto;
 import com.ByteTech.GreenPlate.model.FarmerListing;
-import com.ByteTech.GreenPlate.security.UserDetails.CustomUserDetails;
+import com.ByteTech.GreenPlate.model.ListingView;
+import com.ByteTech.GreenPlate.Repository.ListingViewRepository;
 import com.ByteTech.GreenPlate.Service.FarmerListingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,55 +16,51 @@ import java.util.UUID;
 @RequestMapping("/api/produce-listings")
 public class FarmerListingController {
 
-    private final FarmerListingService farmerListingService;
+    private final FarmerListingService      service;
+    private final ListingViewRepository     viewRepo;
 
     @Autowired
-    public FarmerListingController(FarmerListingService farmerListingService) {
-        this.farmerListingService = farmerListingService;
+    public FarmerListingController(
+            FarmerListingService service,
+            ListingViewRepository viewRepo
+    ) {
+        this.service  = service;
+        this.viewRepo = viewRepo;
     }
 
-    /** List all farmer listings */
-    @GetMapping
-    public List<FarmerListing> getAllFarmerListings() {
-        return farmerListingService.getAllFarmerListings();
-    }
-
-    /** Get a single listing by its ID */
+    /**
+     * Retrieve a single produce listing by ID and record a view event.
+     */
     @GetMapping("/{id}")
-    public FarmerListing getFarmerListingById(@PathVariable UUID id) {
-        return farmerListingService.getFarmerListingById(id);
+    public FarmerListing getById(@PathVariable UUID id) {
+        viewRepo.save(new ListingView(null, id, Instant.now()));
+        return service.getFarmerListingById(id);
     }
 
-    /**
-     * Create a new listing.
-     * The sellerId is derived from the authenticated user.
-     */
+    /** List all produce listings */
+    @GetMapping
+    public List<FarmerListing> getAll() {
+        return service.getAllFarmerListings();
+    }
+
+    /** Create a new produce listing */
     @PostMapping
-    public FarmerListing createFarmerListing(
-            @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody FarmerListingDto dto
-    ) {
-        UUID sellerId = userDetails.getId();
-        return farmerListingService.createListing(dto);
+    public FarmerListing create(@RequestBody FarmerListingDto dto) {
+        return service.createListing(dto);
     }
 
-    /**
-     * Update an existing listing.
-     * Ensures the sellerId from the JWT matches the one on the listing.
-     */
+    /** Update an existing produce listing */
     @PutMapping("/{id}")
-    public FarmerListing updateFarmerListing(
+    public FarmerListing update(
             @PathVariable UUID id,
-            @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody FarmerListingDto dto
     ) {
-        UUID sellerId = userDetails.getId();
-        return farmerListingService.updateListing( id, dto);
+        return service.updateListing(id, dto);
     }
 
-    /** Delete a listing by its ID */
+    /** Delete a produce listing */
     @DeleteMapping("/{id}")
-    public void deleteFarmerListing(@PathVariable UUID id) {
-        farmerListingService.deleteFarmerListing(id);
+    public void delete(@PathVariable UUID id) {
+        service.deleteFarmerListing(id);
     }
 }
